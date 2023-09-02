@@ -24,6 +24,11 @@ export default class TaskList extends Component {
                     <Task 
                     desc="Comprar Livro"
                     estimateAt={new Date()}
+                    doneAt={new Date()}
+                    />
+                    <Task 
+                    desc="Comprar Livro"
+                    estimateAt={new Date()}
                     doneAt={null}
                     />
                 </View>

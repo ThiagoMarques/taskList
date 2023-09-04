@@ -36,7 +36,7 @@ function getCheckView(doneAt) {
     if (doneAt !== null) {
         return (
             <View style={styles.done}>
-                {/* <Icon name='check' size={20} color={commonStyles.colors.secondary}></Icon> */}
+                <Icon name='check' size={20} color={commonStyles.colors.secondary}></Icon>
             </View>
         )
     } else {

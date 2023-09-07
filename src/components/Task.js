@@ -19,18 +19,34 @@ export default props => {
 
     const getRightContent = () => {
         return (
-            <TouchableOpacity>
-                <Icon name="trash" size={30} color='black' />
+            <TouchableOpacity 
+            style={styles.right}
+            onPress={() => props.onDelete && props.onDelete(props.id)}
+            >
+                <Icon name="trash" size={30} color='#FFF' />
             </TouchableOpacity>
+        )
+    }
+
+    const getLeftContent = () => {
+        return (
+            <View style={styles.left}>
+                <Icon name="trash" size={30} color='#FFF' style={styles.excludeIcon} />
+                <Text style={styles.excludeText}>Excluir</Text>
+            </View>
         )
     }
 
     return (
         <>
             <GestureHandlerRootView>
-                <Swipeable renderRightActions={getRightContent}>
+                <Swipeable 
+                renderLeftActions={getLeftContent} 
+                renderRightActions={getRightContent}
+                onSwipeableOpen={() => props.onDelete && props.onDelete(props.id)}
+                >
                     <View style={styles.container}>
-                        <TouchableWithoutFeedback onPress={() => props.toggleTask(props.id)}>
+                        <TouchableWithoutFeedback onPress={() => props.onToggleTask(props.id)}>
                             <View style={styles.checkContainer}>
                                 {getCheckView(props.doneAt)}
                             </View>
@@ -42,13 +58,7 @@ export default props => {
                     </View>
                 </Swipeable>
             </GestureHandlerRootView>
-
-
         </>
-
-
-
-
     )
 }
 
@@ -74,6 +84,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         alignItems: 'center',
         paddingVertical: 10,
+        backgroundColor: '#FFF'
     },
     checkContainer: {
         width: '20%',
@@ -111,5 +122,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-end',
         paddingHorizontal: 20
+    },
+    left: {
+        flex: 1,
+        backgroundColor: 'red',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    excludeText: {
+        fontFamily: commonStyles.fontFamily,
+        color: '#FFF',
+        fontSize: 20,
+        marginRight: 10
+    },
+    excludeIcon: {
+        marginLeft: 10
     }
 })

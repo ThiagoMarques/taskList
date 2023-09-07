@@ -6,39 +6,50 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import moment from 'moment'
 
-const initialState = { desc: '', date: new Date(), showDatePicker: false}
+const initialState = { desc: '', date: new Date(), showDatePicker: false }
 
 export default class AddTask extends Component {
 
     state = {
         ...initialState
     }
+
+    save = () => {
+        const newTask = {
+            desc: this.state.desc,
+            date: this.state.date
+        }
+
+        this.props.onSave && this.props.onSave(newTask)
+        this.setState({ ...initialState })
+    }
+
     handleConfirm = (date) => {
         console.warn("A date has been picked: ", date);
     };
 
     getDatePicker = () => {
         let datePicker = <DateTimePicker
-        value={this.state.date}
-        onChange={(_,date) => this.setState({date, showDatePicker: false})}
-        mode="date"
-      />
-     
-      const dateString = moment(this.state.date).format('ddd D [de] MMMM [de] YYYY')
+            value={this.state.date}
+            onChange={(_, date) => this.setState({ date, showDatePicker: false })}
+            mode="date"
+        />
 
-      if(Platform.OS === 'android') {
-        datePicker = (
-            <View>
-                <TouchableOpacity onPress={() => this.setState({showDatePicker: true})}>
-                    <Text style={styles.date}>
-                        {dateString}
-                    </Text>
-                </TouchableOpacity>
-                {this.state.showDatePicker && datePicker}
-            </View>
-        )
-      }
-      return datePicker
+        const dateString = moment(this.state.date).format('ddd D [de] MMMM [de] YYYY')
+
+        if (Platform.OS === 'android') {
+            datePicker = (
+                <View>
+                    <TouchableOpacity onPress={() => this.setState({ showDatePicker: true })}>
+                        <Text style={styles.date}>
+                            {dateString}
+                        </Text>
+                    </TouchableOpacity>
+                    {this.state.showDatePicker && datePicker}
+                </View>
+            )
+        }
+        return datePicker
     }
 
     render() {
@@ -55,14 +66,14 @@ export default class AddTask extends Component {
                 </TouchableWithoutFeedback>
                 <View style={styles.container}>
                     <Text style={styles.header}>Nova tarefa</Text>
-                    <TextInput style={styles.input} 
-                    placeholder='Descrição da tarefa'
-                    onChangeText={desc => this.setState({desc})}
-                    value={this.state.desc}
-                     />
-                     {this.getDatePicker()}
+                    <TextInput style={styles.input}
+                        placeholder='Descrição da tarefa'
+                        onChangeText={desc => this.setState({ desc })}
+                        value={this.state.desc}
+                    />
+                    {this.getDatePicker()}
                     <View style={styles.buttons}>
-                    <TouchableOpacity>
+                        <TouchableOpacity onPress={this.save}>
                             <Text style={styles.button}>Salvar</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={this.props.onCancel}>

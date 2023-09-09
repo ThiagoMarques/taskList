@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import { ImageBackground, Text, StyleSheet, View, SafeAreaView, TextInput, TouchableOpacity } from "react-native";
+import React, { Component } from "react";
+import { ImageBackground, Text, StyleSheet, View, SafeAreaView, TextInput, TouchableOpacity, Alert } from "react-native";
 
 import backgroundImage from '../../assets/imgs/login.jpg'
 import commonStyles from "../commonStyles";
@@ -14,41 +14,49 @@ export default class Auth extends Component {
         stageNew: true
     }
 
+    signinOrSignup = () => {
+        if (this.state.stageNew) {
+            Alert.alert('Sucesso!', 'Criar conta')
+        } else {
+            Alert.alert('Sucesso!', 'Logar')
+        }
+    }
+
     render() {
         return (
             <ImageBackground source={backgroundImage} style={styles.background}>
-                
+
                 <SafeAreaView style={styles.formContainer} >
                     <View >
                         <Text style={styles.title}>Tasks</Text>
                         <Text style={styles.subtitle}>{this.state.stageNew ? 'Crie sua conta' : 'Informe seus dados'}</Text>
-                        {this.state.stageNew && <TextInput 
-                        placeholder="Nome" 
-                        value={this.state.name}
-                        style={styles.input}
-                        onChangeText={name => this.setState({name})}
+                        {this.state.stageNew && <TextInput
+                            placeholder="Nome"
+                            value={this.state.name}
+                            style={styles.input}
+                            onChangeText={name => this.setState({ name })}
                         ></TextInput>}
-                        <TextInput 
-                        placeholder="E-mail" 
-                        value={this.state.email}
-                        style={styles.input}
-                        onChangeText={email => this.setState({email})}
+                        <TextInput
+                            placeholder="E-mail"
+                            value={this.state.email}
+                            style={styles.input}
+                            onChangeText={email => this.setState({ email })}
                         ></TextInput>
-                        <TextInput 
-                        placeholder="Senha" 
-                        value={this.state.password}
-                        style={styles.input}
-                        secureTextEntry={true}
-                        onChangeText={password => this.setState({password})}
+                        <TextInput
+                            placeholder="Senha"
+                            value={this.state.password}
+                            style={styles.input}
+                            secureTextEntry={true}
+                            onChangeText={password => this.setState({ password })}
                         ></TextInput>
-                        {this.state.stageNew && <TextInput 
-                        placeholder="Confirmação de senha" 
-                        value={this.state.confirmPassword}
-                        style={styles.input}
-                        secureTextEntry={true}
-                        onChangeText={confirmPassword => this.setState({confirmPassword})}
+                        {this.state.stageNew && <TextInput
+                            placeholder="Confirmação de senha"
+                            value={this.state.confirmPassword}
+                            style={styles.input}
+                            secureTextEntry={true}
+                            onChangeText={confirmPassword => this.setState({ confirmPassword })}
                         ></TextInput>}
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={this.signinOrSignup}>
                             <SafeAreaView style={styles.button}>
                                 <View>
                                     <Text style={styles.buttonText}>
@@ -59,6 +67,12 @@ export default class Auth extends Component {
                         </TouchableOpacity>
                     </View>
                 </SafeAreaView>
+                <TouchableOpacity style={{ padding: 10 }}
+                    onPress={() => this.setState({ stageNew: !this.state.stageNew })}>
+                    <Text style={styles.buttonText}>
+                        {this.state.stageNew ? 'Já possui conta?' : 'Ainda não possui conta?'}
+                    </Text>
+                </TouchableOpacity>
             </ImageBackground>
         )
     }

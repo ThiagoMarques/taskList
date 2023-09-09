@@ -7,16 +7,27 @@ import commonStyles from "../commonStyles";
 export default class Auth extends Component {
 
     state = {
+        name: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: '',
+        stageNew: true
     }
 
     render() {
         return (
             <ImageBackground source={backgroundImage} style={styles.background}>
-                <Text style={StyleSheet.title}>Tasks</Text>
-                <SafeAreaView style={styles.formContainer}>
+                
+                <SafeAreaView style={styles.formContainer} >
                     <View >
+                        <Text style={styles.title}>Tasks</Text>
+                        <Text style={styles.subtitle}>{this.state.stageNew ? 'Crie sua conta' : 'Informe seus dados'}</Text>
+                        {this.state.stageNew && <TextInput 
+                        placeholder="Nome" 
+                        value={this.state.name}
+                        style={styles.input}
+                        onChangeText={name => this.setState({name})}
+                        ></TextInput>}
                         <TextInput 
                         placeholder="E-mail" 
                         value={this.state.email}
@@ -27,12 +38,22 @@ export default class Auth extends Component {
                         placeholder="Senha" 
                         value={this.state.password}
                         style={styles.input}
+                        secureTextEntry={true}
                         onChangeText={password => this.setState({password})}
                         ></TextInput>
+                        {this.state.stageNew && <TextInput 
+                        placeholder="Confirmação de senha" 
+                        value={this.state.confirmPassword}
+                        style={styles.input}
+                        secureTextEntry={true}
+                        onChangeText={confirmPassword => this.setState({confirmPassword})}
+                        ></TextInput>}
                         <TouchableOpacity>
                             <SafeAreaView style={styles.button}>
                                 <View>
-                                    <Text style={styles.buttonText}>Entrar</Text>
+                                    <Text style={styles.buttonText}>
+                                        {this.state.stageNew ? 'Registrar' : 'Entrar'}
+                                    </Text>
                                 </View>
                             </SafeAreaView>
                         </TouchableOpacity>
@@ -54,6 +75,14 @@ const styles = StyleSheet.create({
         fontFamily: commonStyles.fontFamily,
         color: commonStyles.colors.secondary,
         fontSize: 70,
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    subtitle: {
+        fontFamily: commonStyles.fontFamily,
+        color: '#FFF',
+        fontSize: 20,
+        textAlign: 'center',
         marginBottom: 10
     },
     input: {
